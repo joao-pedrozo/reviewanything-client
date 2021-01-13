@@ -1,23 +1,30 @@
 import logo from './logo.svg';
 import './App.css';
+import { useQuery } from 'relay-hooks';
+import graphql from 'babel-plugin-relay/macro';
 
 function App() {
+  const query = graphql`
+    review(id: "5ffb950068a611a459fa1e63"){
+      id
+      title
+      text
+    }
+  }
+`;
+
+const options = {
+  fetchPolicy: 'store-or-network', //default
+  networkCacheConfig: undefined,
+}
+
+  const { data } = useQuery(query);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <h1>
+        {data}
+      </h1>
     </div>
   );
 }
